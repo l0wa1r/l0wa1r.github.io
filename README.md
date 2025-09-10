@@ -1,4 +1,4 @@
-© 2025 Typhon64 (old nick). Licensed under the Apache License, Version 2.0.
+© 2025 LowAir (Typhon64 old nick). Licensed under the Apache License, Version 2.0.
 
 This project is licensed under the Apache License, Version 2.0. You may use, modify, and distribute this software in accordance with the terms of that license.
 
