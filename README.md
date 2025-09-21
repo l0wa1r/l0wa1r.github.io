@@ -8,5 +8,5 @@ As stated in the Apache License, the following attribution terms
 License: Apache License 2.0
 
 Author & Theme Creator: LowAir
-Contact (secure & anonymous): Session ID 0500d49ca2b7d6e4149e53e8eba080f0b3795af952810f19bc21882121a7a4e760
+Contact : Session ID 0500d49ca2b7d6e4149e53e8eba080f0b3795af952810f19bc21882121a7a4e760
 (Session: https://getsession.org)
