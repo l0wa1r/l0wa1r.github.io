@@ -387,34 +387,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Audio control functionality
+    // Audio control functionality (single source via existing <audio> element)
     const audioControl = document.getElementById('audio-control');
     const audioIcon = document.getElementById('audio-icon');
-    let audio = null;
+    const audioEl = document.getElementById('background-audio');
     let isPlaying = false;
 
-    if (audioControl) {
-        audioControl.addEventListener('click', toggleAudio);
+    if (audioEl) {
+        audioEl.loop = true;
+        audioEl.volume = 0.3;
     }
 
-    function toggleAudio() {
-        if (!audio) {
-            audio = new Audio('media/hmm.mp3');
-            audio.loop = true;
-            audio.volume = 0.3;
-        }
-
-        if (isPlaying) {
-            audio.pause();
-            audioIcon.className = 'fas fa-play';
-            isPlaying = false;
-        } else {
-            audio.play().catch(error => {
-                console.warn('Audio playback failed:', error);
-            });
-            audioIcon.className = 'fas fa-pause';
-            isPlaying = true;
-        }
+    if (audioControl && audioEl) {
+        audioControl.addEventListener('click', () => {
+            if (isPlaying) {
+                audioEl.pause();
+                if (audioIcon) audioIcon.className = 'fas fa-play';
+                isPlaying = false;
+            } else {
+                audioEl.play().catch(error => {
+                    console.warn('Audio playback failed:', error);
+                });
+                if (audioIcon) audioIcon.className = 'fas fa-pause';
+                isPlaying = true;
+            }
+        });
     }
 
     // Session ID copy functionality
