@@ -50,22 +50,33 @@ img, video {
 }
 
 :root {
-    /* Dark Theme (Purple) - Default */
-    --bg-primary-dark: #0f172a;
-    --bg-secondary-dark: #1e293b;
-    --card-bg-dark: rgba(15, 23, 42, 0.7);
-    --card-bg-rgb-dark: 15, 23, 42;
-    --text-primary-dark: #e2e8f0;
-    --text-secondary-dark: #94a3b8;
-    --accent-dark: #c4b5fd; /* Purple accent */
-    --accent-rgb-dark: 196, 181, 253;
-    --accent-glow-dark: rgba(196, 181, 253, 0.4);
-    --highlight-dark: #818cf8;
-    --border-dark: rgba(196, 181, 253, 0.2);
+    /* Dark Theme (Neutral/Monochrome) */
+    --bg-primary-dark: #0a0a0a;
+    --bg-secondary-dark: #111111;
+    --card-bg-dark: rgba(17, 17, 17, 0.7);
+    --card-bg-rgb-dark: 17, 17, 17;
+    --text-primary-dark: #e5e7eb;
+    --text-secondary-dark: #9ca3af;
+    --accent-dark: #e5e7eb; /* Neutral light accent for dark mode */
+    --accent-rgb-dark: 229, 231, 235;
+    --accent-glow-dark: rgba(255, 255, 255, 0.2);
+    --highlight-dark: #9ca3af;
+    --border-dark: rgba(255, 255, 255, 0.12);
     --terminal-bg-dark: rgba(0, 0, 0, 0.95);
-    --particle-color-dark: '#c4b5fd';
+    --particle-color-dark: '#ffffff';
     --button-text-dark: #e2e8f0; /* For dark theme button text */
     --button-bg-dark: rgba(255,255,255,0.12);
+    /* Dark mode interaction/elevation */
+    --button-hover-dark: rgba(255,255,255,0.16);
+    --button-press-dark: rgba(255,255,255,0.22);
+    --border-strong-dark: rgba(255,255,255,0.22);
+    --elev-shadow-dark: 0 10px 30px rgba(0,0,0,0.6);
+    /* Soft UI tokens */
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+    --shadow-soft: 0 6px 18px rgba(0,0,0,0.25);
+    --shadow-hover: 0 10px 26px rgba(0,0,0,0.35);
 
     /* Light Theme (Mocha/Cream) */
     --bg-primary-light: #f5f3ef; /* Cream background */
@@ -83,6 +94,9 @@ img, video {
     --particle-color-light: '#A0522D';
     --button-text-light: #333333; /* For light theme button text */
     --button-bg-light: rgba(0,0,0,0.08); /* Subtle dark background for buttons on light theme */
+    /* Light soft tokens */
+    --shadow-soft-light: 0 6px 18px rgba(0,0,0,0.12);
+    --shadow-hover-light: 0 10px 26px rgba(0,0,0,0.18);
 
     /* Current Theme Variables - Defaults to Dark Theme */
     --bg-primary: var(--bg-primary-dark);
@@ -191,9 +205,9 @@ body {
     height: 38px;
     min-width: 38px;
     padding: 0 1.1em;
-    border-radius: 20px; /* Softer pill shape */
+    border-radius: var(--radius-md); /* Softer pill shape */
     background: var(--button-bg-dark);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* Default shadow for dark theme */
+    box-shadow: var(--shadow-soft); /* Default shadow for dark theme */
     color: var(--button-text-dark);
     font-size: 1rem;
     font-weight: 500;
@@ -201,7 +215,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+    transition: background 220ms ease, box-shadow 220ms ease, color 220ms ease, border-color 220ms ease, transform 200ms ease;
     cursor: pointer;
     outline: none;
     -webkit-focus-ring-color: transparent;
@@ -213,7 +227,7 @@ body {
 .header-btn:hover {
     background: var(--accent-dark);
     color: var(--bg-primary-dark);
-    box-shadow: 0 4px 12px var(--accent-glow-dark);
+    box-shadow: var(--shadow-hover);
     border-color: transparent;
 }
 
@@ -251,11 +265,11 @@ body {
 
 .terminal {
     background-color: var(--terminal-bg);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-soft);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
+    transition: box-shadow 240ms ease, border-color 220ms ease, transform 240ms ease, background 220ms ease;
     user-select: text;
 }
 
@@ -277,13 +291,13 @@ body {
 .profile-card {
     width: 100%;
     background-color: var(--card-bg);
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-soft);
     backdrop-filter: blur(10px);
     border: 1px solid var(--border);
     transform: translateY(0);
-    transition: transform 0.3s ease;
+    transition: transform 260ms ease, box-shadow 260ms ease, border-color 220ms ease, background 220ms ease;
     position: relative;
     z-index: 2;
     user-select: none;
@@ -386,6 +400,24 @@ body {
 .highlight {
     color: var(--highlight);
     font-weight: 500;
+}
+
+/* Dark theme: make disclaimer/notice highlight slightly brighter and legible */
+body:not(.light-theme) .highlight {
+    color: #e2e5ea; /* brighter for readability */
+    text-shadow: 0 0 6px rgba(255,255,255,0.06);
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+/* Light theme: soft notice */
+body.light-theme .highlight {
+    color: #374151; /* readable on light */
+    text-shadow: none;
+    background: transparent;
+    border: none;
+    padding: 0;
 }
 
 /* Cards Section */
@@ -528,6 +560,8 @@ body {
 /* Profile Card Styles */
 .profile-card:hover {
     transform: translateY(-5px);
+    box-shadow: var(--elev-shadow-dark);
+    border-color: var(--border-strong-dark);
 }
 
 /* Touch/JS activated state to mimic hover on mobile */
@@ -569,6 +603,25 @@ body {
     border-radius: 12px;
     font-size: 0.75rem;
     font-weight: 600;
+}
+
+/* Dark theme: make profile meta badges stand out */
+body:not(.light-theme) .badge,
+body:not(.light-theme) .time-badge {
+    background: rgba(255,255,255,0.045);
+    color: var(--text-primary-dark);
+    border: 1px solid rgba(255,255,255,0.16);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.015);
+    backdrop-filter: blur(4px);
+}
+
+/* Light theme: subtle badge appearance */
+body.light-theme .badge,
+body.light-theme .time-badge {
+    background: rgba(0,0,0,0.04);
+    color: var(--text-primary-light);
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
 .profile-action {
@@ -802,6 +855,53 @@ body {
     box-shadow: 0 5px 15px rgba(196, 181, 253, 0.4);
 }
 
+/* Dark theme interaction overrides for modern subtle look */
+body:not(.light-theme) .header-btn:hover,
+body:not(.light-theme) .theme-btn:hover,
+body:not(.light-theme) .lang-toggle-btn:hover {
+    background: var(--button-hover-dark);
+    color: var(--text-primary-dark);
+    border-color: var(--border-strong-dark);
+    box-shadow: var(--elev-shadow-dark);
+}
+
+body:not(.light-theme) .contact-btn:hover,
+body:not(.light-theme) .session-btn:hover {
+    background: var(--button-hover-dark);
+    color: var(--text-primary-dark);
+    border-color: var(--border-strong-dark);
+    box-shadow: var(--elev-shadow-dark);
+}
+
+body:not(.light-theme) .social-link {
+    background-color: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+}
+body:not(.light-theme) .social-link:hover {
+    background: var(--button-hover-dark);
+    color: var(--text-primary-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--elev-shadow-dark);
+}
+
+body:not(.light-theme) .profile-btn:hover {
+    background: var(--button-hover-dark);
+    color: var(--text-primary-dark);
+    border-color: var(--border-strong-dark);
+}
+
+body:not(.light-theme) .interest-tags span:hover {
+    background-color: var(--button-hover-dark);
+    color: var(--text-primary-dark);
+}
+
+body:not(.light-theme) .card:hover,
+body:not(.light-theme) .skill-category:hover,
+body:not(.light-theme) .project-item:hover {
+    border-color: var(--border-strong-dark);
+    box-shadow: var(--elev-shadow-dark);
+}
+
 /* Terminal Styles */
 .terminal-container {
     width: 100%;
@@ -836,8 +936,6 @@ body {
 }
 
 body.light-theme .terminal-header {
-    /* Adjust if needed for light theme, e.g., background-color: var(--bg-secondary-light); */
-    /* For now, the user only requested changes for dark mode header and light mode border */
     background-color: var(--bg-secondary-light); /* Ensuring it has a light theme bg */
     border-bottom: 1px solid var(--border-light); /* Light theme separator */
 }
@@ -851,15 +949,21 @@ body.light-theme .terminal-header {
 }
 
 .terminal-btn.red {
-    background-color: #ff5f56;
+    background-color: #d84a45; /* toned red */
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 0 0 2px rgba(216,74,69,0.15), 0 6px 14px rgba(0,0,0,0.35);
 }
 
 .terminal-btn.yellow {
-    background-color: #ffbd2e;
+    background-color: #d6a22a; /* toned yellow */
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 0 0 2px rgba(214,162,42,0.14), 0 6px 14px rgba(0,0,0,0.35);
 }
 
 .terminal-btn.green {
-    background-color: #27ca3f;
+    background-color: #22a73a; /* toned green */
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 0 0 2px rgba(34,167,58,0.14), 0 6px 14px rgba(0,0,0,0.35);
 }
 
 .terminal-btn:active {
@@ -873,7 +977,30 @@ body.light-theme .terminal-header {
 }
 
 .terminal-btn:hover {
-    filter: brightness(1.1);
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+}
+
+/* Dark theme: neutral/white terminal controls for minimal look */
+body:not(.light-theme) .terminal-btn.red,
+body:not(.light-theme) .terminal-btn.yellow,
+body:not(.light-theme) .terminal-btn.green {
+    background-color: rgba(255,255,255,0.85);
+    border-color: rgba(255,255,255,0.28);
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.08), 0 6px 14px rgba(0,0,0,0.45);
+}
+body:not(.light-theme) .terminal-header {
+    background-color: rgba(17,17,17,0.9);
+    border-bottom: 1px solid var(--border);
+}
+
+/* Light theme: soft gray terminal controls */
+body.light-theme .terminal-btn.red,
+body.light-theme .terminal-btn.yellow,
+body.light-theme .terminal-btn.green {
+    background-color: #e5e7eb;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.03), 0 6px 14px rgba(0,0,0,0.08);
 }
 
 /* Ensure buttons return to normal state after interaction */
