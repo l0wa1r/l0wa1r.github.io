@@ -18,23 +18,23 @@
         }
 
         :root {
-            /* Koyu Tema (LowAir Inspired) */
-            --bg-primary-dark: #0f172a;
-            --bg-secondary-dark: #1e293b;
-            --card-bg-dark: rgba(15, 23, 42, 0.7);
-            --text-primary-dark: #e2e8f0;
-            --text-secondary-dark: #94a3b8;
-            --accent-dark: #c4b5fd; /* New Purple accent */
-            --accent-glow-dark: rgba(196, 181, 253, 0.4);
-            --highlight-dark: #818cf8; /* New Highlight */
-            --border-dark: rgba(196, 181, 253, 0.2); /* New Border */
+            /* Koyu Tema (Monokrom & modern) */
+            --bg-primary-dark: #0a0a0a;
+            --bg-secondary-dark: #111111;
+            --card-bg-dark: rgba(17, 17, 17, 0.7);
+            --text-primary-dark: #e5e7eb;
+            --text-secondary-dark: #9ca3af;
+            --accent-dark: #e5e7eb; /* Monokrom vurgulu */
+            --accent-glow-dark: rgba(255, 255, 255, 0.2);
+            --highlight-dark: #9ca3af; /* İnce vurgu */
+            --border-dark: rgba(255, 255, 255, 0.12); /* İnce sınır */
             --resume-item-bg-dark: var(--card-bg-dark);
             --sidebar-bg-dark: var(--bg-primary-dark);
             --back-btn-text-dark: var(--text-primary-dark);
             --link-color-dark: var(--highlight-dark);
             --link-hover-color-dark: var(--accent-dark);
             /* Particles.js Renkleri - Koyu Tema */
-            --particle-color-dark: '#c4b5fd';
+            --particle-color-dark: '#ffffff';
             --canvas-bg-dark: var(--bg-primary-dark);
 
             /* LowAir specific additions - Dark */
@@ -90,6 +90,20 @@
             /* x-prov: f1bc0d7a6f9213e5a2b9c4d8f0a1e3b7c9d2e4f6a8b0c2d4e6f8a1b2c3d4e5f6 */
         }
 
+        /* Dark mode interaction/elevation variables (match index) */
+        :root {
+            --button-hover-dark: rgba(255,255,255,0.16);
+            --button-press-dark: rgba(255,255,255,0.22);
+            --border-strong-dark: rgba(255,255,255,0.22);
+            --elev-shadow-dark: 0 10px 30px rgba(0,0,0,0.6);
+            /* Soft UI tokens */
+            --radius-sm: 10px;
+            --radius-md: 14px;
+            --radius-lg: 18px;
+            --shadow-soft: 0 6px 18px rgba(0,0,0,0.25);
+            --shadow-hover: 0 10px 26px rgba(0,0,0,0.35);
+        }
+
         body.light-theme {
             --bg-primary: var(--bg-primary-light);
             --bg-secondary: var(--bg-secondary-light);
@@ -111,6 +125,13 @@
             --terminal-bg: var(--terminal-bg-light);
             --button-text: var(--button-text-light);
             --button-bg: var(--button-bg-light);
+        }
+
+        /* Remove default focus rings / white circular highlights */
+        *:focus,
+        *:focus-visible {
+            outline: none !important;
+            box-shadow: none !important;
         }
 
         body {
@@ -207,14 +228,14 @@
             background-color: var(--button-bg);
             color: var(--button-text);
             border: 1px solid var(--border);
-            border-radius: 20px;
+            border-radius: var(--radius-md);
             height: 44px;
             padding: 0 20px 0 15px; 
             cursor: pointer;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: background 220ms ease, color 220ms ease, border-color 220ms ease, transform 200ms ease, box-shadow 220ms ease;
+            box-shadow: var(--shadow-soft);
         }
         .back-btn i { font-size: 1.1em; }
         .back-btn .back-btn-text { font-size: 0.95em; line-height: 1; }
@@ -367,10 +388,10 @@
             background-color: var(--resume-item-bg);
             padding: 1.5rem; 
             margin-bottom: 2rem;
-            border-radius: 12px; 
+            border-radius: var(--radius-lg); 
             border: 1px solid var(--border);
             backdrop-filter: blur(8px); 
-            transition: all 0.3s ease;
+            transition: transform 240ms ease, box-shadow 240ms ease, border-color 220ms ease, background 220ms ease;
             display: none; 
             position: relative;
             overflow: hidden;
@@ -380,6 +401,12 @@
             transform: translateY(-5px);
             box-shadow: 0 8px 20px var(--accent-glow);
             border-color: var(--accent);
+        }
+        /* Dark mode modern elevation */
+        body:not(.light-theme) .resume-section:hover,
+        body:not(.light-theme) .resume-item:hover {
+            border-color: var(--border-strong-dark);
+            box-shadow: var(--elev-shadow-dark);
         }
         .resume-section.active-section { 
             display: block;
@@ -446,6 +473,12 @@
         .resume-item .links a:hover {
             color: var(--accent);
         }
+        /* Dark mode links hover */
+        body:not(.light-theme) .resume-item .links a:hover {
+            color: var(--text-primary-dark);
+            background-color: var(--button-hover-dark);
+            border-color: var(--border-strong-dark);
+        }
         .resume-item .links a i { margin-right: 0.3rem; }
 
         .resume-section .items-container-flex { display: flex; flex-wrap: wrap; gap: 1.5rem;  }
@@ -467,6 +500,29 @@
             border-color: var(--accent);
             transform: translateY(-2px);
             box-shadow: 0 3px 8px var(--accent-glow);
+        }
+        /* Dark mode chips hover */
+        body:not(.light-theme) .skills-list li:hover {
+            background-color: var(--button-hover-dark);
+            color: var(--text-primary-dark);
+            border-color: var(--border-strong-dark);
+            box-shadow: var(--elev-shadow-dark);
+        }
+
+        /* Buttons in resume header */
+        body:not(.light-theme) .audio-control-btn:hover,
+        body:not(.light-theme) #theme-toggle-btn:hover,
+        body:not(.light-theme) .back-btn:hover {
+            background: var(--button-hover-dark);
+            color: var(--text-primary-dark);
+            border-color: var(--border-strong-dark);
+            box-shadow: var(--elev-shadow-dark);
+        }
+
+        /* Sidebar links */
+        body:not(.light-theme) .resume-sidebar nav ul li a:hover {
+            background-color: var(--button-hover-dark);
+            color: var(--text-primary-dark);
         }
 
         @media screen and (max-width: 900px) {
