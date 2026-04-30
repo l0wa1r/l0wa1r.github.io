@@ -49,7 +49,7 @@ const particleConfigBase = {
             direction: 'none', 
             random: false, // More predictable movement
             straight: false,
-            out_mode: 'bounce',
+            out_mode: 'out',
             bounce: false // Disable bounce calculations
         }
     },
@@ -154,7 +154,7 @@ function initializeParticles(particleColor) {
 
         // Optimized particle count limits for performance
         if (targetParticleCount > 0) {
-            targetParticleCount = Math.max(40, Math.min(targetParticleCount, 180));
+            targetParticleCount = Math.max(40, Math.min(targetParticleCount, 140));
         }
 
         // Parçacık sayısı, boyutu veya çizgi mesafesi değiştiyse güncelle
@@ -255,7 +255,7 @@ function initializeParticles(particleColor) {
     
     // Optimized initial particle count limits
     if (initialParticleCount > 0) {
-        initialParticleCount = Math.max(40, Math.min(initialParticleCount, 180));
+        initialParticleCount = Math.max(40, Math.min(initialParticleCount, 140));
     }
 
     currentParticleConfig.particles.number.value = initialParticleCount;
