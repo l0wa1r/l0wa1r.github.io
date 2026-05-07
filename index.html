@@ -32,16 +32,7 @@
         .header-logo, .terminal-body, .prompt, .command {
             font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
         }
-        /* Anti-FOUC (Flash of Unstyled Content) for GSAP */
-        .js-loading .left-section,
-        .js-loading .right-section,
-        .js-loading .terminal-container,
-        .js-loading .header {
-            opacity: 0;
-            visibility: hidden;
-        }
     </style>
-    <script>document.documentElement.classList.add('js-loading');</script>
     
     <!-- Minimal Font Loading - Privacy Optimized -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -73,7 +64,6 @@
     
     <!-- External Scripts (Localized for Privacy) -->
     <script src="script/particles.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
     <script src="script/script.js" defer></script>
     
     <!-- Schema.org Structured Data for SEO -->
