@@ -4,18 +4,18 @@
 // Defines the base configuration for the particles.js background animation
 const particleConfigBase = {
     particles: {
-        number: { value: 120, density: { enable: true, value_area: 1200 } }, // Reduced particles for performance
+        number: { value: 128, density: { enable: true, value_area: 1200 } },
         shape: { type: 'circle' }, // Particle shape
         opacity: {
             value: 0.6, // Slightly reduced for better performance
             random: false, // Disable random for performance
             anim: { enable: false } // Disable opacity animation for performance
         },
-        size: { value: 2.2, random: true, anim: { enable: false } }, // Disable size animation
-        line_linked: { enable: true, distance: 100, opacity: 0.4, width: 1 }, // Reduced distance and opacity
+        size: { value: 2.0, random: true, anim: { enable: false } }, // Slightly smaller
+        line_linked: { enable: true, distance: 80, opacity: 0.35, width: 1 }, // Shortened distance for O(n^2) optimization
         move: { 
             enable: true, 
-            speed: 0.8, // Slower for much better performance and professional feel
+            speed: 0.9, // Slightly faster — more alive feel while staying easy on CPU
             direction: 'none', 
             random: false, // More predictable movement
             straight: false,
@@ -35,8 +35,8 @@ const particleConfigBase = {
             push: { particles_nb: 1 }
         }
     },
-    retina_detect: true,
-    fps_limit: 30 // Increased FPS for smoother experience
+    retina_detect: false, // Huge CPU/GPU saver, particles remain sharp enough for background
+    fps_limit: 25 // Lower FPS for background animation is barely noticeable but saves CPU
 };
 
 let initialWindowArea; // Yeniden boyutlandırma hesaplamaları için başlangıç pencere alanını depolar
@@ -125,9 +125,9 @@ function initializeParticles(particleColor, forceReinit = false) {
             }
         }
 
-        // Re-optimized particle count limits for performance (balanced)
+        // Particle count clamped to max 128
         if (targetParticleCount > 0) {
-            targetParticleCount = Math.max(40, Math.min(targetParticleCount, 150));
+            targetParticleCount = Math.max(64, Math.min(targetParticleCount, 128));
         }
 
         // Parçacık sayısı, boyutu veya çizgi mesafesi değiştiyse güncelle
@@ -240,9 +240,9 @@ function initializeParticles(particleColor, forceReinit = false) {
         }
     }
     
-    // Re-optimized initial particle count limits
+    // Particle count clamped to max 128
     if (initialParticleCount > 0) {
-        initialParticleCount = Math.max(40, Math.min(initialParticleCount, 150));
+        initialParticleCount = Math.max(64, Math.min(initialParticleCount, 128));
     }
 
     currentParticleConfig.particles.number.value = initialParticleCount;
@@ -347,9 +347,30 @@ if (themeToggleButton) {
     });
 }
 
-// Page visibility: static English offline title
+// === Page Visibility API — pause/resume particles on tab switch ===
 document.addEventListener('visibilitychange', () => {
     document.title = document.hidden ? 'System Offline!' : 'LowAir';
+
+    if (!window.pJSDom || !window.pJSDom[0] || !window.pJSDom[0].pJS) return;
+
+    const pJS = window.pJSDom[0].pJS;
+    try {
+        if (document.hidden) {
+            // Freeze movement — safe, reversible, no internal hacks
+            pJS.particles.move.enable = false;
+        } else {
+            // Re-enable and do a full clean reinit to guarantee particles appear
+            pJS.particles.move.enable = true;
+            const currentTheme = localStorage.getItem('theme') || 'dark';
+            const particleColor = getComputedStyle(document.body)
+                .getPropertyValue(currentTheme === 'light' ? '--particle-color-light' : '--particle-color-dark')
+                .trim().replace(/'/g, '') || (currentTheme === 'light' ? '#c47d35' : '#c29f68');
+            // Short delay so browser settles before reinitializing canvas
+            setTimeout(() => initializeParticles(particleColor, true), 150);
+        }
+    } catch(e) {
+        console.warn('Visibility particle toggle failed:', e);
+    }
 });
 
 /**
