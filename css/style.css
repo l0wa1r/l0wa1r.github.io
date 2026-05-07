@@ -213,12 +213,22 @@ button, a, [role="button"],
     padding: 0 var(--space-6);
 }
 
-/* ── Particles ───────────────────────────────────────────── */
+#particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
 #particles-js.fallback-background {
     background:
         radial-gradient(2px 2px at 20px 30px, var(--accent), transparent),
         radial-gradient(1px 1px at 90px 40px, var(--accent), transparent);
     background-size: 200px 100px;
+    -webkit-animation: particleFloat 20s ease-in-out infinite;
     animation: particleFloat 20s ease-in-out infinite;
     opacity: 0.2; /* Slightly lower for better readability */
 }
