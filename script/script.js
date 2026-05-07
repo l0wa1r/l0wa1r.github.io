@@ -15,7 +15,7 @@ const particleConfigBase = {
         line_linked: { enable: true, distance: 100, opacity: 0.4, width: 1 }, // Reduced distance and opacity
         move: { 
             enable: true, 
-            speed: 1.2, // Slightly slower for smoother performance
+            speed: 0.8, // Slower for much better performance and professional feel
             direction: 'none', 
             random: false, // More predictable movement
             straight: false,
@@ -125,9 +125,9 @@ function initializeParticles(particleColor, forceReinit = false) {
             }
         }
 
-        // Optimized particle count limits for performance
+        // Re-optimized particle count limits for performance (balanced)
         if (targetParticleCount > 0) {
-            targetParticleCount = Math.max(40, Math.min(targetParticleCount, 300));
+            targetParticleCount = Math.max(40, Math.min(targetParticleCount, 150));
         }
 
         // Parçacık sayısı, boyutu veya çizgi mesafesi değiştiyse güncelle
@@ -240,9 +240,9 @@ function initializeParticles(particleColor, forceReinit = false) {
         }
     }
     
-    // Optimized initial particle count limits
+    // Re-optimized initial particle count limits
     if (initialParticleCount > 0) {
-        initialParticleCount = Math.max(40, Math.min(initialParticleCount, 300));
+        initialParticleCount = Math.max(40, Math.min(initialParticleCount, 150));
     }
 
     currentParticleConfig.particles.number.value = initialParticleCount;
