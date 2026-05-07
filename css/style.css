@@ -82,23 +82,23 @@ img, video { max-width: 100%; height: auto; display: block; }
     --terminal-bg-dark:   rgba(17, 16, 15, 0.30); /* Heavy blur for foggy night effect */
 
     /* ── Light Theme ─────────────────────────────────────── */
-    --bg-primary-light:    #f4f2ee;
-    --bg-secondary-light:  #ece8e0;
+    --bg-primary-light:    #fdfcfb; /* Warmer, softer off-white */
+    --bg-secondary-light:  #f5f1ed;
     --bg-elevated-light:   #ffffff;
-    --card-bg-light:       rgba(255, 255, 255, 0.55);
-    --text-primary-light:  #1a1a1a;
-    --text-secondary-light:#5a5a5a;
-    --text-tertiary-light: #aaaaaa;
+    --card-bg-light:       rgba(255, 255, 255, 0.65);
+    --text-primary-light:  #2d2621; /* Softened charcoal-brown, not 'dead black' */
+    --text-secondary-light:#5c544e; /* Muted academic brown */
+    --text-tertiary-light: #9e948d;
     --accent-light:        #8B4513;
-    --accent-glow-light:   rgba(139, 69, 19, 0.2);
-    --border-light:        rgba(139, 69, 19, 0.15);
-    --border-strong-light: rgba(139, 69, 19, 0.28);
-    --btn-bg-light:        rgba(139, 69, 19, 0.05); /* Extremely subtle warmth, mostly grey */
-    --btn-hover-light:     rgba(139, 69, 19, 0.10);
-    --shadow-light:        0 4px 16px rgba(0, 0, 0, 0.05); /* Softer, tighter resting shadow */
-    --shadow-hover-light:  0 8px 24px rgba(0, 0, 0, 0.08); /* Reduced spread for hover shadows */
+    --accent-glow-light:   rgba(139, 69, 19, 0.12);
+    --border-light:        rgba(139, 69, 19, 0.12);
+    --border-strong-light: rgba(139, 69, 19, 0.22);
+    --btn-bg-light:        rgba(139, 69, 19, 0.04); 
+    --btn-hover-light:     rgba(139, 69, 19, 0.08);
+    --shadow-light:        0 4px 20px rgba(45, 38, 33, 0.06); 
+    --shadow-hover-light:  0 8px 32px rgba(45, 38, 33, 0.10); 
     --particle-color-light: '#8B4513';
-    --terminal-bg-light:   rgba(245, 242, 235, 0.45); /* Thicker frosted glass, less transparent */
+    --terminal-bg-light:   rgba(253, 252, 251, 0.60); 
 
     /* ── Active tokens (defaults = dark) ─────────────────── */
     --bg-primary:    var(--bg-primary-dark);
@@ -214,23 +214,17 @@ button, a, [role="button"],
 }
 
 /* ── Particles ───────────────────────────────────────────── */
-#particles-js {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    pointer-events: none;
-}
-
 #particles-js.fallback-background {
     background:
         radial-gradient(2px 2px at 20px 30px, var(--accent), transparent),
         radial-gradient(1px 1px at 90px 40px, var(--accent), transparent);
     background-size: 200px 100px;
     animation: particleFloat 20s ease-in-out infinite;
-    opacity: 0.3;
+    opacity: 0.2; /* Slightly lower for better readability */
+}
+
+body.light-theme #particles-js {
+    opacity: 0.45; /* Soften particles in light mode */
 }
 
 @keyframes particleFloat {
@@ -483,7 +477,7 @@ body.light-theme .theme-btn .fa-moon { display: none; }
 .tech-stack {
     display: flex;
     gap: var(--space-3);
-    margin-top: var(--space-5);
+    margin-top: 2.2rem; /* Increased spacing to prevent tooltip overlap with text above */
     flex-wrap: wrap;
     position: relative;
     z-index: 10;
@@ -516,13 +510,13 @@ body.light-theme .theme-btn .fa-moon { display: none; }
     box-shadow: 0 8px 24px var(--accent-glow);
 }
 
-/* Tooltip */
+/* Tooltip - Moved back to TOP but with better spacing and z-index */
 .tech-item::before {
     content: attr(data-tooltip);
     position: absolute;
-    bottom: calc(100% + 8px);
+    bottom: calc(100% + 10px); /* Appear above icon */
     left: 50%;
-    transform: translateX(-50%) translateY(4px);
+    transform: translateX(-50%) translateY(6px);
     background: var(--bg-elevated);
     color: var(--text-primary);
     border: 1px solid var(--border-strong);
@@ -536,7 +530,12 @@ body.light-theme .theme-btn .fa-moon { display: none; }
     transition: opacity var(--duration-base) ease,
                 transform var(--duration-base) ease;
     z-index: 100;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.tech-item:hover::before {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 
 .tech-item:hover::before,
@@ -653,6 +652,11 @@ body.light-theme .theme-btn .fa-moon { display: none; }
     background-image: linear-gradient(rgba(17, 16, 15, 0.4), rgba(17, 16, 15, 0.4)),
                       url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     transition: background-image 0.5s ease;
+}
+
+body.light-theme .site-harmony-banner {
+    background-image: linear-gradient(rgba(253, 252, 251, 0.2), rgba(253, 252, 251, 0.2)),
+                      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 /* Avatar */
@@ -1412,12 +1416,7 @@ body.light-theme .terminal-btn.green  { background: #22a73a; }
 }
 
 .resume-list li::before {
-    content: "\f105";
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    color: var(--accent);
-    font-size: 0.8rem;
-    margin-top: 3px;
+    content: ""; /* Removed the ugly '>' indicator */
 }
 
 .skill-chips {
