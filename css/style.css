@@ -245,10 +245,22 @@ body.fallback-mode {
 /* ══════════════════════════════════════════════════════════
    HEADER
 ══════════════════════════════════════════════════════════ */
+@keyframes headerEnter {
+    from { -webkit-transform: translateY(-50px); transform: translateY(-50px); opacity: 0; }
+    to { -webkit-transform: translateY(0); transform: translateY(0); opacity: 1; }
+}
+
+@-webkit-keyframes headerEnter {
+    from { -webkit-transform: translateY(-50px); opacity: 0; }
+    to { -webkit-transform: translateY(0); opacity: 1; }
+}
+
 .header {
     position: relative;
     z-index: 100;
     width: 100%;
+    -webkit-animation: headerEnter 1s cubic-bezier(0.19, 1, 0.22, 1) both;
+    animation: headerEnter 1s cubic-bezier(0.19, 1, 0.22, 1) both;
 }
 
 .header-inner {
@@ -346,6 +358,16 @@ body.light-theme .theme-btn .fa-moon { display: none; }
 /* ══════════════════════════════════════════════════════════
    MAIN CONTENT
 ══════════════════════════════════════════════════════════ */
+@keyframes contentEnter {
+    from { -webkit-transform: translateY(30px); opacity: 0; }
+    to { -webkit-transform: translateY(0); opacity: 1; }
+}
+
+@-webkit-keyframes contentEnter {
+    from { -webkit-transform: translateY(30px); opacity: 0; }
+    to { -webkit-transform: translateY(0); opacity: 1; }
+}
+
 .main-content {
     position: relative;
     z-index: 1;
@@ -367,11 +389,19 @@ body.light-theme .theme-btn .fa-moon { display: none; }
     flex: 1;
     min-width: 0;
     max-width: 600px;
+    -webkit-animation: contentEnter 1s cubic-bezier(0.215, 0.610, 0.355, 1) both;
+    animation: contentEnter 1s cubic-bezier(0.215, 0.610, 0.355, 1) both;
+    -webkit-animation-delay: 0.1s;
+    animation-delay: 0.1s;
 }
 
 .right-section {
     flex-shrink: 0;
     width: 300px;
+    -webkit-animation: contentEnter 1s cubic-bezier(0.215, 0.610, 0.355, 1) both;
+    animation: contentEnter 1s cubic-bezier(0.215, 0.610, 0.355, 1) both;
+    -webkit-animation-delay: 0.25s;
+    animation-delay: 0.25s;
 }
 
 /* ── About / Hero ────────────────────────────────────────── */
@@ -882,7 +912,12 @@ body.light-theme .theme-btn .fa-moon { display: none; }
     margin: var(--space-6) 0 0;
     position: relative;
     z-index: 2;
+    -webkit-transform: translateZ(0);
     transform: translateZ(0);
+    -webkit-animation: contentEnter 1s cubic-bezier(0.215, 0.610, 0.355, 1) both;
+    animation: contentEnter 1s cubic-bezier(0.215, 0.610, 0.355, 1) both;
+    -webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s;
 }
 
 .terminal {
@@ -1181,8 +1216,17 @@ body.light-theme .terminal-btn.green  { background: #22a73a; }
 /* Accessibility: Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+    .cursor {
+        animation: none !important;
+        opacity: 1 !important;
+    }
+    #particles-js.fallback-background {
+        animation: none !important;
     }
 }
 
