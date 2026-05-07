@@ -1,34 +1,4 @@
-// Remove anti-FOUC hidden state right before JS animations start
-document.documentElement.classList.remove('js-loading');
-
-// GSAP Animation for header entrance - with error handling
-// Smoothly slides the header from the top on load
-if (typeof gsap !== 'undefined') {
-    try {
-        gsap.from('.header', { y: -50, opacity: 0, duration: 1, ease: 'expo.out', clearProps: 'all' });
-    } catch (error) {
-        console.warn('GSAP animation failed, continuing without animations:', error);
-    }
-} else {
-    console.warn('GSAP not loaded, skipping animations');
-}
-
-// Entrance animations for main content sections - with error handling
-// Creates staggered entrance animations for main sections
-if (typeof gsap !== 'undefined') {
-    try {
-        gsap.from([".left-section", ".right-section", ".terminal-container"], {
-            opacity: 0,
-            y: 30,
-            duration: 1.0,
-            ease: "power2.out",
-            stagger: 0.15,
-            clearProps: "all"
-        });
-    } catch (error) {
-        console.warn('GSAP content animations failed:', error);
-    }
-}
+// Removed GSAP entrance animations - now handled via CSS for better cross-browser compatibility and performance.
 
 // Particle.js configuration - Optimized for maximum performance
 // Defines the base configuration for the particles.js background animation
@@ -265,42 +235,58 @@ function initializeParticles(particleColor) {
 
     // Initialize particlesJS with error handling and dependency check
     try {
+        // Retry logic for older browsers where defer might load out of order
         if (typeof particlesJS === 'undefined') {
-            throw new Error('particlesJS library not loaded (possibly blocked by extension)');
+            let retries = 0;
+            const maxRetries = 10;
+            const retryInterval = setInterval(() => {
+                if (typeof particlesJS !== 'undefined') {
+                    clearInterval(retryInterval);
+                    particlesJS('particles-js', currentParticleConfig);
+                    finalizeParticlesInit();
+                } else if (++retries >= maxRetries) {
+                    clearInterval(retryInterval);
+                    triggerParticlesFallback();
+                }
+            }, 100);
+            return;
         }
+        
         particlesJS('particles-js', currentParticleConfig);
+        finalizeParticlesInit();
     } catch (error) {
-        console.warn('Particles.js fallback triggered:', error.message);
-        // Fallback: apply CSS-only animated background
-        const particlesContainer = document.getElementById('particles-js');
-        if (particlesContainer) {
-            particlesContainer.classList.add('fallback-background');
-        }
-        document.body.classList.add('fallback-mode');
-        return;
+        triggerParticlesFallback(error);
     }
+}
 
-    // After init, ensure canvas does not block interactions (pointer-events) and sits behind content
+/**
+ * Handles particles.js fallback for browsers that fail to load the library.
+ */
+function triggerParticlesFallback(error) {
+    if (error) console.warn('Particles.js fallback triggered:', error.message);
+    const particlesContainer = document.getElementById('particles-js');
+    if (particlesContainer) {
+        particlesContainer.classList.add('fallback-background');
+    }
+    document.body.classList.add('fallback-mode');
+}
+
+/**
+ * Ensures the particles canvas sits behind content and doesn't block interactions.
+ */
+function finalizeParticlesInit() {
     if (window.pJSDom && window.pJSDom[0] && window.pJSDom[0].pJS) {
-        pJSInstance = window.pJSDom[0].pJS;
-
-        // Capture initial canvas area for dynamic density calculations
-        if (pJSInstance && initialParticleCanvasArea === undefined) {
+        const pJSInstance = window.pJSDom[0].pJS;
+        if (initialParticleCanvasArea === undefined) {
             initialParticleCanvasArea = pJSInstance.canvas.w * pJSInstance.canvas.h;
         }
 
         const particlesJSElement = document.getElementById('particles-js');
-        if (particlesJSElement && particlesJSElement.style) {
+        if (particlesJSElement) {
             particlesJSElement.style.pointerEvents = 'none';
             particlesJSElement.style.zIndex = '-1';
             particlesJSElement.style.position = 'fixed';
-            particlesJSElement.style.top = '0';
-            particlesJSElement.style.left = '0';
-            particlesJSElement.style.width = '100%';
-            particlesJSElement.style.height = '100%';
         }
-    } else {
-        console.error("particles.js could not be initialized!");
     }
 }
 
