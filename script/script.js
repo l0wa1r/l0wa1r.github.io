@@ -48,11 +48,14 @@ let initialParticleCanvasArea; // Yoğunluk ölçeklemesi için başlangıç par
  * Ensures the canvas does not block pointer events and interaction settings are applied correctly.
  * @param {string} particleColor - Color value to apply to particles/lines.
  */
-function initializeParticles(particleColor) {
+function initializeParticles(particleColor, forceReinit = false) {
     let pJSInstance;
 
+    const particlesJSElement = document.getElementById('particles-js');
+    if (!particlesJSElement) return;
+
     // particles.js zaten başlatıldı mı kontrol et
-    if (window.pJSDom && window.pJSDom[0] && window.pJSDom[0].pJS) {
+    if (!forceReinit && window.pJSDom && window.pJSDom[0] && window.pJSDom[0].pJS) {
         pJSInstance = window.pJSDom[0].pJS;
         // Update particle and line colors
         pJSInstance.particles.color.value = particleColor;
@@ -124,7 +127,7 @@ function initializeParticles(particleColor) {
 
         // Optimized particle count limits for performance
         if (targetParticleCount > 0) {
-            targetParticleCount = Math.max(40, Math.min(targetParticleCount, 140));
+            targetParticleCount = Math.max(40, Math.min(targetParticleCount, 300));
         }
 
         // Parçacık sayısı, boyutu veya çizgi mesafesi değiştiyse güncelle
@@ -165,7 +168,21 @@ function initializeParticles(particleColor) {
         return;
     }
 
-    // First-time initialization of particles.js
+    // First-time or forced initialization of particles.js
+    if (forceReinit && window.pJSDom && window.pJSDom[0]) {
+        try {
+            if (window.pJSDom[0].pJS && window.pJSDom[0].pJS.fn && window.pJSDom[0].pJS.fn.vendors && window.pJSDom[0].pJS.fn.vendors.destroypJS) {
+                window.pJSDom[0].pJS.fn.vendors.destroypJS();
+            }
+        } catch (e) {
+            console.warn('Particles destroy failed:', e);
+        }
+        window.pJSDom = [];
+        initialParticleCanvasArea = undefined; // Reset area to recalibrate density for the new window size
+        const oldCanvas = particlesJSElement.querySelector('canvas');
+        if (oldCanvas) oldCanvas.remove();
+    }
+
     let currentParticleConfig = JSON.parse(JSON.stringify(particleConfigBase));
     currentParticleConfig.particles.color = { value: particleColor };
     currentParticleConfig.particles.line_linked.color = particleColor;
@@ -225,7 +242,7 @@ function initializeParticles(particleColor) {
     
     // Optimized initial particle count limits
     if (initialParticleCount > 0) {
-        initialParticleCount = Math.max(40, Math.min(initialParticleCount, 140));
+        initialParticleCount = Math.max(40, Math.min(initialParticleCount, 300));
     }
 
     currentParticleConfig.particles.number.value = initialParticleCount;
@@ -368,7 +385,7 @@ const handleResize = debounce(function() {
         const particleColor = getComputedStyle(body).getPropertyValue(
             currentTheme === 'light' ? '--particle-color-light' : '--particle-color-dark'
         ).trim().replace(/'/g, '');
-        initializeParticles(particleColor);
+        initializeParticles(particleColor, true); // Force re-init on significant resize
         initialWindowArea = currentWindowArea;
     }
 }, 500); // Increased debounce for better performance
