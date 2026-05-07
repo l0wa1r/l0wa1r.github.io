@@ -97,7 +97,7 @@ img, video { max-width: 100%; height: auto; display: block; }
     --btn-hover-light:     rgba(139, 69, 19, 0.08);
     --shadow-light:        0 4px 20px rgba(45, 38, 33, 0.06); 
     --shadow-hover-light:  0 8px 32px rgba(45, 38, 33, 0.10); 
-    --particle-color-light: '#8B4513';
+    --particle-color-light: '#7a3e12'; /* Espresso-coffee brown — deep, warm, matches #8B4513 accent perfectly */
     --terminal-bg-light:   rgba(253, 252, 251, 0.60); 
 
     /* ── Active tokens (defaults = dark) ─────────────────── */
@@ -221,6 +221,17 @@ button, a, [role="button"],
     height: 100%;
     z-index: -1;
     pointer-events: none;
+    /* GPU compositing hint — offloads canvas rendering from CPU to the GPU */
+    will-change: transform;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+/* Promote the canvas element to a separate GPU compositing layer */
+#particles-js canvas {
+    display: block;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
 
 #particles-js.fallback-background {
@@ -234,7 +245,7 @@ button, a, [role="button"],
 }
 
 body.light-theme #particles-js {
-    opacity: 0.45; /* Soften particles in light mode */
+    opacity: 0.85; /* Rich and vivid in light mode */
 }
 
 @keyframes particleFloat {
