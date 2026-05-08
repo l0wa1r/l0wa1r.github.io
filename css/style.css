@@ -498,7 +498,7 @@ body.light-theme .theme-btn .fa-moon { display: none; }
 .tech-stack {
     display: flex;
     gap: var(--space-3);
-    margin-top: 2.2rem; /* Increased spacing to prevent tooltip overlap with text above */
+    margin-top: 2.6rem; /* Balanced spacing to prevent overlap without pushing buttons too far down */
     flex-wrap: wrap;
     position: relative;
     z-index: 10;
@@ -999,22 +999,22 @@ body.light-theme .terminal-header {
 .terminal-btn:hover  { -webkit-filter: brightness(1.15); filter: brightness(1.15); transform: scale(1.1); }
 .terminal-btn:active { transform: scale(0.88); -webkit-filter: brightness(0.8); filter: brightness(0.8); }
 
-/* Unified Terminal Buttons — Vibrant Gemstone Aesthetic */
+/* Unified Terminal Buttons — Vintage / Dark Academia Aesthetic */
 .terminal-btn.red {
-    background: #e53935; /* Vibrant Ruby */
-    box-shadow: inset 0 1px 2px rgba(255,255,255,0.2), 0 0 8px rgba(229, 57, 53, 0.4);
+    background: #c05c5c; /* Muted Crimson */
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.2), 0 0 8px rgba(192, 92, 92, 0.4);
     opacity: 0.9;
 }
 
 .terminal-btn.yellow {
-    background: #ffb300; /* Vibrant Amber */
-    box-shadow: inset 0 1px 2px rgba(255,255,255,0.2), 0 0 8px rgba(255, 179, 0, 0.4);
+    background: #d49a4c; /* Muted Gold */
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.2), 0 0 8px rgba(212, 154, 76, 0.4);
     opacity: 0.9;
 }
 
 .terminal-btn.green {
-    background: #43a047; /* Vibrant Jade */
-    box-shadow: inset 0 1px 2px rgba(255,255,255,0.2), 0 0 8px rgba(67, 160, 71, 0.4);
+    background: #6b8e5f; /* Muted Sage */
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.2), 0 0 8px rgba(107, 142, 95, 0.4);
     opacity: 0.9;
 }
 
@@ -1345,6 +1345,9 @@ body.light-theme .terminal-btn {
 .resume-overlay-header .terminal-controls {
     position: absolute;
     left: var(--space-5);
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .resume-title {
