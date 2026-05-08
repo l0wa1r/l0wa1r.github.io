@@ -7,12 +7,12 @@ const particleConfigBase = {
         number: { value: 128, density: { enable: true, value_area: 1200 } },
         shape: { type: 'circle' }, // Particle shape
         opacity: {
-            value: 0.6, // Slightly reduced for better performance
+            value: 0.8, // Increased opacity so they don't look lifeless
             random: false, // Disable random for performance
             anim: { enable: false } // Disable opacity animation for performance
         },
-        size: { value: 2.0, random: true, anim: { enable: false } }, // Slightly smaller
-        line_linked: { enable: true, distance: 80, opacity: 0.35, width: 1 }, // Shortened distance for O(n^2) optimization
+        size: { value: 2.2, random: true, anim: { enable: false } }, // Restored original size
+        line_linked: { enable: true, distance: 80, opacity: 0.5, width: 1 }, // Increased opacity to look more alive
         move: { 
             enable: true, 
             speed: 0.9, // Slightly faster — more alive feel while staying easy on CPU
@@ -35,8 +35,8 @@ const particleConfigBase = {
             push: { particles_nb: 1 }
         }
     },
-    retina_detect: false, // Huge CPU/GPU saver, particles remain sharp enough for background
-    fps_limit: 25 // Lower FPS for background animation is barely noticeable but saves CPU
+    retina_detect: true, // Re-enabled: This is REQUIRED for sharp particles on modern phones/monitors. False makes it blurry.
+    fps_limit: 30 // Restored to 30 for smoother appearance without being overly demanding
 };
 
 let initialWindowArea; // Yeniden boyutlandırma hesaplamaları için başlangıç pencere alanını depolar
