@@ -31,7 +31,7 @@ const particleConfigBase = {
             resize: true
         },
         modes: {
-            grab: { distance: 60, line_linked: { opacity: 0.6 } }, // Reduced grab distance
+            grab: { distance: 80, line_linked: { opacity: 0.85 } },
             push: { particles_nb: 1 }
         }
     },
@@ -702,4 +702,14 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => el.classList.remove('active-tap'), 300);
         });
     });
+
+    // Prevent text selection when spam clicking particles background
+    const particlesContainer = document.getElementById('particles-js');
+    if (particlesContainer) {
+        particlesContainer.addEventListener('mousedown', function(e) {
+            if (e.detail > 1) {
+                e.preventDefault();
+            }
+        });
+    }
 });
