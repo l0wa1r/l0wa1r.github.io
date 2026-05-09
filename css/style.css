@@ -31,6 +31,32 @@ html[data-darkreader-scheme],
     padding: 0;
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: var(--radius-full);
+    border: 1px solid transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) var(--bg-secondary);
+}
+
 img, video { max-width: 100%; height: auto; display: block; }
 
 /* ── Design Tokens ───────────────────────────────────────── */
@@ -435,6 +461,12 @@ body.light-theme .theme-btn .fa-moon { display: none; }
     color: var(--text-primary);
     letter-spacing: 0.5px;
     line-height: 1.2;
+    animation: header-breathing 6s infinite ease-in-out;
+}
+
+@keyframes header-breathing {
+    0%, 100% { text-shadow: 0 0 8px rgba(194, 159, 104, 0); }
+    50% { text-shadow: 0 0 20px var(--accent-glow); }
 }
 
 /* "Hey." greeting */
@@ -768,20 +800,48 @@ body.light-theme .site-harmony-banner {
 
 /* ── Audio Vocalizer (divider line style) ─────────────────── */
 .audio-vocalizer {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
-    margin: var(--space-4) 0;
-    cursor: pointer;
+    height: 1px; /* Even thinner for more elegance */
+    width: 100%;
+    margin: var(--space-6) auto;
+    background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
     position: relative;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: visible;
-    transition: background var(--duration-base) ease;
+    transition: all var(--duration-base) ease;
 }
 
 .audio-vocalizer:hover {
-    background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+    background: linear-gradient(90deg, transparent, var(--border-strong) 20%, var(--border-strong) 80%, transparent);
+}
+
+.audio-vocalizer:hover .vocalizer-play-btn {
+    transform: translate(-50%, -50%) scale(1.4);
+    color: var(--accent);
+    filter: drop-shadow(0 0 5px var(--accent-glow));
+    opacity: 1;
+}
+
+.audio-vocalizer::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -100%;
+    width: 40%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    animation: vocalizer-shimmer 3s infinite linear;
+    z-index: 1;
+}
+
+@keyframes vocalizer-shimmer {
+    0% { left: -100%; opacity: 0; }
+    20% { opacity: 0.8; }
+    80% { opacity: 0.8; }
+    100% { left: 100%; opacity: 0; }
 }
 
 .vocalizer-play-btn {
@@ -789,20 +849,27 @@ body.light-theme .site-harmony-banner {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 22px;
-    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--text-tertiary);
+    background: none; /* Removed background box */
+    padding: 0; /* Removed padding */
     font-size: 11px;
-    transition: color var(--duration-base) ease, opacity var(--duration-base) ease;
-    opacity: 0.7;
+    opacity: 0.6;
+    z-index: 2;
+    transition: all var(--duration-base) ease;
 }
 
-.audio-vocalizer:hover .vocalizer-play-btn { opacity: 1; color: var(--accent); }
+.audio-vocalizer.playing::after {
+    display: none;
+}
 
-.audio-vocalizer.playing .vocalizer-play-btn { opacity: 0; pointer-events: none; }
+.audio-vocalizer.playing .vocalizer-play-btn {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.8);
+}
 
 .vocalizer-bars {
     position: absolute;
@@ -1466,6 +1533,60 @@ body.light-theme .terminal-btn {
     content: ""; /* Removed the ugly '>' indicator */
 }
 
+.resume-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--space-3);
+    list-style: none;
+    padding: 0;
+}
+
+.resume-grid li {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.resume-footer-badges {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px dashed var(--border);
+    display: flex;
+    justify-content: center;
+    opacity: 0.6;
+    transition: opacity var(--duration-base) ease;
+}
+
+.resume-footer-badges:hover {
+    opacity: 1;
+}
+
+.web-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    max-width: 400px;
+}
+
+.web-badges img {
+    height: 31px;
+    width: 88px;
+    image-rendering: pixelated; /* classic retro crisp scaling */
+    border: 1px solid transparent;
+    transition: transform var(--duration-fast) ease, filter var(--duration-fast) ease, border-color var(--duration-fast) ease;
+    filter: grayscale(0.5) opacity(0.85);
+    border-radius: 2px;
+}
+
+.web-badges img:hover {
+    transform: scale(1.05) rotate(-2deg);
+    filter: grayscale(0) opacity(1) drop-shadow(0 0 6px var(--accent-glow));
+    border-color: var(--accent);
+}
+
 .skill-chips {
     display: flex;
     flex-wrap: wrap;
@@ -1482,13 +1603,29 @@ body.light-theme .terminal-btn {
     font-weight: 500;
     color: var(--text-secondary);
     transition: all var(--duration-fast) ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-chips li::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+    transition: all 0.5s ease;
+}
+
+.skill-chips li:hover::before {
+    left: 100%;
 }
 
 .skill-chips li:hover {
     background: var(--accent);
     color: var(--bg-primary);
     border-color: var(--accent);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px var(--accent-glow);
 }
 
 .resume-link {
@@ -1500,11 +1637,22 @@ body.light-theme .terminal-btn {
     font-weight: 600;
     font-size: 0.9rem;
     margin-top: var(--space-3);
-    transition: opacity var(--duration-fast) ease;
+    transition: all var(--duration-fast) ease;
+}
+
+.resume-link i, .resume-link svg {
+    transition: transform var(--duration-fast) ease, filter var(--duration-fast) ease;
 }
 
 .resume-link:hover {
-    opacity: 0.8;
+    color: var(--accent-hover);
+    transform: translateX(4px);
+    opacity: 1;
+}
+
+.resume-link:hover i, .resume-link:hover svg {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 5px var(--accent-glow));
 }
 
 .panel-backdrop {
