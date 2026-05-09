@@ -465,8 +465,8 @@ body.light-theme .theme-btn .fa-moon { display: none; }
 }
 
 @keyframes header-breathing {
-    0%, 100% { text-shadow: 0 0 8px rgba(194, 159, 104, 0); }
-    50% { text-shadow: 0 0 20px var(--accent-glow); }
+    0%, 100% { text-shadow: 0 0 5px rgba(194, 159, 104, 0); }
+    50% { text-shadow: 0 0 15px var(--accent-glow); }
 }
 
 /* "Hey." greeting */
@@ -800,26 +800,38 @@ body.light-theme .site-harmony-banner {
 
 /* ── Audio Vocalizer (divider line style) ─────────────────── */
 .audio-vocalizer {
-    height: 1px; /* Even thinner for more elegance */
+    height: 1px;
     width: 100%;
     margin: var(--space-6) auto;
-    background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        var(--border) 15%, 
+        var(--border) 85%, 
+        transparent 100%
+    );
     position: relative;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all var(--duration-base) ease;
+    transition: all var(--duration-base) var(--ease-out);
+    /* Hardware acceleration */
+    transform: translateZ(0);
 }
 
 .audio-vocalizer:hover {
-    background: linear-gradient(90deg, transparent, var(--border-strong) 20%, var(--border-strong) 80%, transparent);
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        var(--border-strong) 15%, 
+        var(--border-strong) 85%, 
+        transparent 100%
+    );
 }
 
 .audio-vocalizer:hover .vocalizer-play-btn {
-    transform: translate(-50%, -50%) scale(1.4);
+    transform: translate(-50%, -50%) scale(1.5);
     color: var(--accent);
-    filter: drop-shadow(0 0 5px var(--accent-glow));
+    filter: drop-shadow(0 0 8px var(--accent-glow));
     opacity: 1;
 }
 
@@ -827,20 +839,25 @@ body.light-theme .site-harmony-banner {
     content: '';
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
     left: -100%;
-    width: 40%;
+    width: 35%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--accent), 
+        transparent
+    );
     opacity: 0;
-    animation: vocalizer-shimmer 3s infinite linear;
+    transform: translateY(-50%);
+    animation: vocalizer-shimmer 3.5s infinite var(--ease-out);
     z-index: 1;
+    pointer-events: none;
 }
 
 @keyframes vocalizer-shimmer {
     0% { left: -100%; opacity: 0; }
-    20% { opacity: 0.8; }
-    80% { opacity: 0.8; }
+    30% { opacity: 0.9; }
+    70% { opacity: 0.9; }
     100% { left: 100%; opacity: 0; }
 }
 
@@ -853,12 +870,12 @@ body.light-theme .site-harmony-banner {
     align-items: center;
     justify-content: center;
     color: var(--text-tertiary);
-    background: none; /* Removed background box */
-    padding: 0; /* Removed padding */
+    background: none;
+    padding: 0;
     font-size: 11px;
-    opacity: 0.6;
+    opacity: 0.55;
     z-index: 2;
-    transition: all var(--duration-base) ease;
+    transition: all var(--duration-base) var(--ease-spring);
 }
 
 .audio-vocalizer.playing::after {
