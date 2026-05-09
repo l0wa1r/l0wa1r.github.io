@@ -4,23 +4,23 @@
 // Defines the base configuration for the particles.js background animation
 const particleConfigBase = {
     particles: {
-        number: { value: 128, density: { enable: true, value_area: 1200 } },
-        shape: { type: 'circle' }, // Particle shape
+        number: { value: 90, density: { enable: true, value_area: 1000 } },
+        shape: { type: 'circle' },
         opacity: {
-            value: 0.8, // Increased opacity so they don't look lifeless
-            random: false, // Disable random for performance
-            anim: { enable: false } // Disable opacity animation for performance
+            value: 0.7,
+            random: false,
+            anim: { enable: false }
         },
-        size: { value: 2.2, random: true, anim: { enable: false } }, // Restored original size
-        line_linked: { enable: true, distance: 80, opacity: 0.5, width: 1 }, // Increased opacity to look more alive
+        size: { value: 2, random: true, anim: { enable: false } },
+        line_linked: { enable: true, distance: 90, opacity: 0.4, width: 1 },
         move: { 
             enable: true, 
-            speed: 0.9, // Slightly faster — more alive feel while staying easy on CPU
+            speed: 0.8,
             direction: 'none', 
-            random: false, // More predictable movement
+            random: false,
             straight: false,
             out_mode: 'out',
-            bounce: false // Disable bounce calculations
+            bounce: false
         }
     },
     interactivity: {
@@ -31,12 +31,12 @@ const particleConfigBase = {
             resize: true
         },
         modes: {
-            grab: { distance: 80, line_linked: { opacity: 0.85 } },
+            grab: { distance: 100, line_linked: { opacity: 0.7 } },
             push: { particles_nb: 1 }
         }
     },
-    retina_detect: true, // Re-enabled: This is REQUIRED for sharp particles on modern phones/monitors. False makes it blurry.
-    fps_limit: 30 // Restored to 30 for smoother appearance without being overly demanding
+    retina_detect: true,
+    fps_limit: 30
 };
 
 let initialWindowArea; // Yeniden boyutlandırma hesaplamaları için başlangıç pencere alanını depolar
@@ -125,9 +125,9 @@ function initializeParticles(particleColor, forceReinit = false) {
             }
         }
 
-        // Particle count clamped to max 128
+        // Particle count clamped to max 100 for better performance
         if (targetParticleCount > 0) {
-            targetParticleCount = Math.max(64, Math.min(targetParticleCount, 128));
+            targetParticleCount = Math.max(40, Math.min(targetParticleCount, 100));
         }
 
         // Parçacık sayısı, boyutu veya çizgi mesafesi değiştiyse güncelle
@@ -240,9 +240,9 @@ function initializeParticles(particleColor, forceReinit = false) {
         }
     }
     
-    // Particle count clamped to max 128
+    // Particle count clamped to max 100 for better performance
     if (initialParticleCount > 0) {
-        initialParticleCount = Math.max(64, Math.min(initialParticleCount, 128));
+        initialParticleCount = Math.max(40, Math.min(initialParticleCount, 100));
     }
 
     currentParticleConfig.particles.number.value = initialParticleCount;
