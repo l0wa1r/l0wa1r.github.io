@@ -1,21 +1,22 @@
-// Removed GSAP entrance animations - now handled via CSS for better cross-browser compatibility and performance.
-
-// Particle.js configuration - Optimized for maximum performance
-// Defines the base configuration for the particles.js background animation
+/* [CORE::PARTICLES] - Adaptive background engine */
 const particleConfigBase = {
     particles: {
-        number: { value: 90, density: { enable: true, value_area: 1000 } },
-        shape: { type: 'circle' },
-        opacity: {
-            value: 0.7,
-            random: false,
-            anim: { enable: false }
+        number: { 
+            value: (window.innerWidth < 768) ? 50 : 100,
+            density: { enable: true, value_area: 800 } 
         },
+        shape: { type: 'circle' },
+        opacity: { value: 0.7, random: false, anim: { enable: false } },
         size: { value: 2, random: true, anim: { enable: false } },
-        line_linked: { enable: true, distance: 90, opacity: 0.4, width: 1 },
+        line_linked: { 
+            enable: true,
+            distance: 160,
+            opacity: 0.35, 
+            width: 1 
+        },
         move: { 
             enable: true, 
-            speed: 0.8,
+            speed: (window.innerWidth < 768) ? 0.6 : 0.8,
             direction: 'none', 
             random: false,
             straight: false,
@@ -26,31 +27,29 @@ const particleConfigBase = {
     interactivity: {
         detect_on: 'window',
         events: {
-            onhover: { enable: true, mode: 'grab' },
+            onhover: { enable: (window.innerWidth > 768), mode: 'grab' },
             onclick: { enable: true, mode: 'push' },
             resize: true
         },
         modes: {
-            grab: { distance: 100, line_linked: { opacity: 0.7 } },
+            grab: { distance: 120, line_linked: { opacity: 0.5 } },
             push: { particles_nb: 1 }
         }
     },
     retina_detect: true,
-    fps_limit: 30
+    fps_limit: (window.innerWidth < 768) ? 30 : 60
 };
 
-let initialWindowArea; // Yeniden boyutlandırma hesaplamaları için başlangıç pencere alanını depolar
-let initialParticleCanvasArea; // Yoğunluk ölçeklemesi için başlangıç particles.js canvas alanını depolar
+let initialWindowArea; /* [UI::STATE] */
+let initialParticleCanvasArea; 
 
 /**
- * Initializes or updates particles.js with the given color.
- * Dynamically adjusts particle count, size, and line distance based on screen size and device capabilities.
+ * [CORE::INIT] - Safely handles particles.js lifecycle with hardware awareness
  * Ensures the canvas does not block pointer events and interaction settings are applied correctly.
  * @param {string} particleColor - Color value to apply to particles/lines.
  */
 function initializeParticles(particleColor, forceReinit = false) {
     let pJSInstance;
-
     const particlesJSElement = document.getElementById('particles-js');
     if (!particlesJSElement) return;
 
