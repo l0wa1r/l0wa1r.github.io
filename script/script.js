@@ -11,7 +11,7 @@ const particleConfigBase = {
         line_linked: { 
             enable: true,
             distance: 160,
-            opacity: 0.35, 
+            opacity: 0.40, // Reduced from 0.45 for a more balanced look
             width: 1 
         },
         move: { 
@@ -32,7 +32,7 @@ const particleConfigBase = {
             resize: true
         },
         modes: {
-            grab: { distance: 120, line_linked: { opacity: 0.5 } },
+            grab: { distance: 120, line_linked: { opacity: 0.55 } }, // Slightly reduced for harmony
             push: { particles_nb: 1 }
         }
     },
@@ -325,17 +325,14 @@ function applyTheme(theme, isInitialLoad = false) {
     }
     localStorage.setItem('theme', theme);
 
-    // Particles.js'i temaya uygun renkle yeniden başlat
-    setTimeout(() => {
+    /* [CORE::THEME_SWAP] - Smooth transition without particle lag */
+    requestAnimationFrame(() => {
         const particleColor = getComputedStyle(body).getPropertyValue(
             theme === 'light' ? '--particle-color-light' : '--particle-color-dark'
-        ).trim().replace(/\'/g, '');
-         if (particleColor) {
-            initializeParticles(particleColor);
-        } else {
-            initializeParticles(theme === 'light' ? '#8B4513' : '#ffffff');
-        }
-    }, 50);
+        ).trim().replace(/'/g, '') || (theme === 'light' ? '#8B4513' : '#ffffff');
+        
+        initializeParticles(particleColor, isInitialLoad);
+    });
 }
 
 // Tema değiştirme düğmesi için olay dinleyicisi
