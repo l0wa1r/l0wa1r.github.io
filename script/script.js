@@ -345,7 +345,7 @@ if (themeToggleButton) {
 
 // === Page Visibility API — pause/resume particles on tab switch ===
 document.addEventListener('visibilitychange', () => {
-    document.title = document.hidden ? 'System Offline!' : 'LowAir';
+    document.title = document.hidden ? 'System Offline!' : 'vxNerv';
 
     if (!window.pJSDom || !window.pJSDom[0] || !window.pJSDom[0].pJS) return;
 
