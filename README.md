@@ -1,6 +1,6 @@
-© 2025 vxNerv. Licensed under the Apache License, Version 2.0.
+© 2025 PxeCore. Licensed under the Apache License, Version 2.0.
 This project is released under the Apache License, Version 2.0. You may use, modify, and distribute it in accordance with the terms of that license.
-The main theme idea and original implementation of this website were created by vxNerv.
+The main theme idea and original implementation of this website were created by PxeCore.
 
-Source files for my personal website hosted at vxnerv.github.io. This is a simple static site maintained by a researcher, not a professional web developer.
+Source files for my personal website hosted at pxecore.github.io. This is a simple static site maintained by a researcher, not a professional web developer.
 Credits: Claude, Gemini, Grok.
