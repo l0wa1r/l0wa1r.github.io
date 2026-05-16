@@ -14,12 +14,19 @@
     <meta name="theme-color" content="#c29f68">
     
     <!-- [UI::RESOURCES] -->
+    <!-- Critical CSS: Render-blocking (must be synchronous) -->
     <link rel="stylesheet" href="css/normalize.css?v=1.0.0&t=1736867776">
+    <link rel="stylesheet" href="css/style.min.css">
+
+    <!-- Google Fonts: Non-render-blocking via preload -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;800&display=swap"></noscript>
+
+    <!-- FontAwesome: Blocking (used in header - fa-moon/fa-sun/social icons visible on first paint) -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous">
     
     <!-- Social Authority: Open Graph & Twitter -->
     <meta property="og:type" content="website">
@@ -43,10 +50,10 @@
     
     <!-- External Scripts (Localized for Privacy) -->
     <script src="script/particles.min.js" defer></script>
-    <script src="script/script.js" defer></script>
+    <script src="script/script.min.js" defer></script>
     
-    <!-- Instant Navigation: Preloads pages on hover (Instant.page v5.1.1) -->
-    <script src="//instant.page/5.2.0" type="module" integrity="sha384-jnZyxPjiipfj96XBHkjmLPxQet2jRJ7O0v5Y+XnAnP49B45l7H2XmG3VREB7a+c8" crossorigin="anonymous"></script>
+    <!-- Instant Navigation: Preloads pages on hover (Instant.page v5.2.0) -->
+    <script src="script/instantpage.js" type="module"></script>
 
     <!-- Elite SEO: JSON-LD Structured Data (Schema.org) -->
     <script type="application/ld+json">
@@ -264,7 +271,8 @@
 
     
     <!-- Audio element for background music -->
-    <audio id="background-audio" preload="metadata" loop>
+    <audio id="background-audio" preload="none" loop>
+        <source src="media/hmm.opus" type="audio/ogg; codecs=opus">
         <source src="media/hmm.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
