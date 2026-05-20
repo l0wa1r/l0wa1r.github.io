@@ -352,14 +352,17 @@ document.addEventListener('visibilitychange', () => {
     const pJS = window.pJSDom[0].pJS;
     try {
         if (document.hidden) {
-            // Freeze movement to save CPU/battery in background
+            // Freeze movement — safe, reversible, no internal hacks
             pJS.particles.move.enable = false;
         } else {
-            // Re-enable and smoothly restart the canvas animation loop
-            if (!pJS.particles.move.enable) {
-                pJS.particles.move.enable = true;
-                pJS.fn.vendors.draw();
-            }
+            // Re-enable and do a full clean reinit to guarantee particles appear
+            pJS.particles.move.enable = true;
+            const currentTheme = localStorage.getItem('theme') || 'dark';
+            const particleColor = getComputedStyle(document.body)
+                .getPropertyValue(currentTheme === 'light' ? '--particle-color-light' : '--particle-color-dark')
+                .trim().replace(/'/g, '') || (currentTheme === 'light' ? '#c47d35' : '#c29f68');
+            // Short delay so browser settles before reinitializing canvas
+            setTimeout(() => initializeParticles(particleColor, true), 150);
         }
     } catch(e) {
         console.warn('Visibility particle toggle failed:', e);
@@ -386,12 +389,10 @@ function debounce(func, wait, immediate) {
         timeout = setTimeout(later, wait);
         if (callNow) func.apply(context, args);
     };
-}
+};
 
 // Heavily debounced resize handler for maximum performance
 const handleResize = debounce(function() {
-    if (document.hidden) return; // Ignore resize events in background to prevent state corruption
-    
     // Only update if window area changed significantly (>15%)
     const currentWindowArea = window.innerWidth * window.innerHeight;
     const areaChangePercent = Math.abs(currentWindowArea - initialWindowArea) / initialWindowArea;
