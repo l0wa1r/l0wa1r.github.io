@@ -1305,8 +1305,8 @@ body.light-theme .terminal-btn {
     .hi-text { font-size: 1.5rem; }
     .about > p { font-size: 0.95rem; }
 
-    .contact-buttons { gap: var(--space-2); }
-    .contact-btn { font-size: 0.85rem; height: 40px; padding: 0 var(--space-4); }
+    .contact-buttons { gap: 6px; }
+    .contact-btn { font-size: 0.85rem; height: 40px; padding: 0 10px; }
 
     .tech-stack { gap: var(--space-2); justify-content: center; }
     .tech-item { width: 38px; height: 38px; font-size: 1rem; }
