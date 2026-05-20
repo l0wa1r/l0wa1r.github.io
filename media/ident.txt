@@ -9,6 +9,7 @@ GPG FP    : 543E 3A49 3CE9 1B88 3A74 97C0 BB3A B4D4 2DB3 1862
 - Youtube : https://www.youtube.com/@pxecore
 - Session : 0500d49ca2b7d6e4149e53e8eba080f0b3795af952810f19bc21882121a7a4e760
 - H News  : https://news.ycombinator.com/user?id=pxecore
+
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 
 mQINBGoNV6sBEADC3a6Z5GzMxUyvvyNYxgncDmsDdu5OZlk8PETsS4AWKBzzGIWk
@@ -60,3 +61,4 @@ IC2rXeCp8f/pJMNwJXL+NSHH8fpJeB+orWdOtGw1PO6AYbEnlgfS+Uu6c1ZRsDaE
 hrW6TbxSjo3uRa3thTgvZAK3JoNRvnm0QEawENLYAqn3sTYevf/RTQ0Q7lNV
 =07+o
 -----END PGP PUBLIC KEY BLOCK-----
+
